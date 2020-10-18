@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "GCC Build",
+			"type": "shell",
+			"command": "make",
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "QEMU Run",
+			"type": "shell",
+			"command": "qemu-system-arm -m 256 -M raspi2 -serial stdio -kernel ./bin/lucidpi.elf",
+			"problemMatcher": [],
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			}
+		}
+	]
+}
