@@ -50,6 +50,11 @@ namespace System::Environment::Cursor
 		Y = y;
 	}
 
+	U0 AddOffset(I32 x, I32 y)
+	{
+		SetPosition(X + x, Y + y);
+	}
+
 	U0 Redraw()
 	{
 		for (U32 i = 0; i < Width; i++)

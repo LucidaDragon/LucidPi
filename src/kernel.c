@@ -1,5 +1,3 @@
-//#define _compile_emulatedsys
-
 #include "Primitives.h"
 #include "System.h"
 #include "System/Console.h"
@@ -44,8 +42,13 @@ extern "C" void kernel_main(U32 r0, U32 r1, U32 atags)
 
 	Screen::Clear(c);
 
+	Console::Write("Press ~ to enter cursor mode.\n");
+	Console::Write("> ");
+
 	Cursor::SetPosition(Screen::GetWidth() / 2, Screen::GetHeight() / 2);
 	Cursor::Redraw();
+
+	BOOL mouseMode = 0;
 
 	while (1)
 	{
@@ -53,8 +56,46 @@ extern "C" void kernel_main(U32 r0, U32 r1, U32 atags)
 
 		UART::WriteChar(chr);
 
-		if (chr == '\r') chr = '\n';
+		if (chr == '~')
+		{
+			mouseMode = !mouseMode;
 
-		Console::WriteChar(chr);
+			if (mouseMode)
+			{
+				Console::Write("\nCursor mode enabled. Navigate with WASD.\n");
+			}
+			else
+			{
+				Console::Write("Cursor mode disabled.\n");
+			}
+		}
+		else
+		{
+			if (mouseMode)
+			{
+				switch (chr)
+				{
+					case 'w':
+						System::Environment::Cursor::AddOffset(0, -5);
+						break;
+					case 's':
+						System::Environment::Cursor::AddOffset(0, 5);
+						break;
+					case 'a':
+						System::Environment::Cursor::AddOffset(-5, 0);
+						break;
+					case 'd':
+						System::Environment::Cursor::AddOffset(5, 0);
+						break;
+				}
+
+				System::Environment::Cursor::Redraw();
+			}
+			else
+			{
+				if (chr == '\r') chr = '\n';
+				Console::WriteChar(chr);
+			}
+		}
 	}
 }

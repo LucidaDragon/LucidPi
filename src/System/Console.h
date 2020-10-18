@@ -84,4 +84,12 @@ namespace System::Console
 			Y -= Screen::GetHeight();
 		}
 	}
+
+	U0 Write(CString str)
+	{
+		for (ADDR i = 0; str[i] != '\0'; i++)
+		{
+			WriteChar((U8)str[i]);
+		}
+	}
 }

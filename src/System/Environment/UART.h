@@ -2,16 +2,18 @@
 
 namespace System::Environment::UART
 {
+	const U32 PeripheralBase = 0x3F000000; // for raspi2 & 3, 0x20000000 for raspi1
+
 	enum
 	{
 		// The GPIO registers base address.
-		GPIO_BASE = 0x3F200000, // for raspi2 & 3, 0x20200000 for raspi1
+		GPIO_BASE = PeripheralBase + 0x200000,
 
 		GPPUD = (GPIO_BASE + 0x94),
 		GPPUDCLK0 = (GPIO_BASE + 0x98),
 
 		// The base address for UART.
-		UART0_BASE = 0x3F201000, // for raspi2 & 3, 0x20201000 for raspi1
+		UART0_BASE = PeripheralBase + 0x201000,
 
 		UART0_DR     = (UART0_BASE + 0x00),
 		UART0_RSRECR = (UART0_BASE + 0x04),
